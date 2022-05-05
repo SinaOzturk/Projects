@@ -1,0 +1,405 @@
+---
+title: "Project Report"
+author: "Group 5: Ahmet Bugra Taksuk - Ahmet Tabakoglu - Yusuf Sina Ozturk"
+date: "Last edited July 02, 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, libraries, include=F}
+library(tidyverse)
+library(lubridate)
+library(zoo)
+library(ggplot2)
+library(data.table)
+library(dplyr)
+library(forecast)
+library(miscTools)
+library(stats)
+library(GGally)
+library("readxl")
+library(fpp)
+library(tseries)
+```
+
+## Introduction
+
+- In this project, the main task is to develop an approach for forecasting Trendyol's nine products' sales data and submit daily forecast of each product sales data from 11 June 2021 to 25 June 2021. Each group has been given the number of sales data for 1 year together with some external information like daily trendyol visits, category visits, basket count, favored count,category sold,category brand sold, category basket. However, for some of the products some of the external variables' data were not usaful and some of them were not related to sales count. Therefore, only few variables are used as external regressor.
+
+- For the nine products, different forecasting techniques were investigated and following models were implemented : ARIMAX, Multiple Linear Regression, ARIMA. Since the caharacteristics of the products, the consumption behaviour and the seasonality of the products are different from each other, different models are used after checking the performance of each model.
+
+- First, we can plot some of the products to see their characteristics since visualizaitons give us a lot of hints about the products. Since it is hard to plot nine products, some of the products were plotted and products that have a similar pattern were not plotted.
+
+```{r, warning=F, fig.width=10}
+pr1 <-read.csv("alldata_item1.csv")
+pr1 <- mutate(pr1, event_date = mdy(event_date))
+
+ggplot(data =  pr1 , aes(x=event_date, y= sold_count)) +
+  geom_line(color = "black") +
+  labs(title = "Product 48740784 Sold Amount",
+       x = "Date",
+       y= "Sales") 
+```
+
+- As can be seen in the plot, the product 48740784 which is a winter coat has a very distinct and irregular pattern of sales data. Between the summer and the winter months, there is nearly no sales data. In the winter and summer months, there is sales data but it is hard to say that there is a seasonal or trend pattern. Thus, for these kind of products, it is reasonable to implement Linear Models as we have many variables to use in LM.
+
+```{r, warning=F, fig.width=10}
+pr7 <-read.csv("alldata_item7.csv")
+pr7 <- mutate(pr7, event_date = ymd(event_date))
+
+ggplot(data =  pr7 , aes(x=event_date, y= sold_count)) +
+  geom_line(color = "black") +
+  labs(title = "Product 85004 Sold Amount",
+       x = "Date",
+       y= "Sales") 
+```
+
+```{r, warning=F, fig.width=10}
+ggplot(data = pr7) + 
+  stat_summary(
+    mapping = aes(x = w_day, y = sold_count),
+    fun.min = min,
+    fun.max = max,
+    fun = median
+  )
+```
+
+- For the product 85004 which is a electronic toothbrush, as opposed to product above, we see a more regular pattern. From the sold amount versus week day, there is a seasonality term occurs every seven day. For these kind of models, we implemented the ARIMA or ARIMAX model because there were seasonal and trend terms and also data were continuous which makes MA or AR terms useful.
+
+```{r, warning=F, fig.width=10}
+pr4 <-read.csv("alldata_item4.csv")
+pr4 <- mutate(pr4, event_date = ymd(event_date))
+pr4 <- as.data.table(pr4)
+
+ggplot(data =  pr4 , aes(x=event_date, y= sold_count)) +
+  geom_line(color = "black") +
+  labs(title = "Product 3151569 Sold Amount",
+       x = "Date",
+       y= "Sales") 
+```
+
+```{r, warning=F, fig.width=10}
+lag7 = diff(pr4$sold_count,lag = 7)
+lag7 <- ts(lag7)
+plot(lag7)
+title("Product 3151569 Sold Amount Differenced Weekly", xlab="Date", ylab="Amount Sold Differenced")
+
+```
+
+- For the product 31515569 which is a tight for women, we see again a continuous data that seems to have a seasonal pattern. To see it clearer, differenced with periods equal to seven is plotted. As we can see from the differenced series, there is a seasonal pattern that occurs every seven day. Nonetheless, there is still a seasonal term that is not covered by weekly seasonality. In this kind of situations, external regressors such as price information or basket count information is used to cover the variance by the model.
+
+## Literature
+
+- In this project, we are dealing with the task of forecasting each product's next day sales amount. However, we are also given some variables that might be useful in predicting the sales amount. To begin with, "price" column refers to the price of the product that is displayed on the screen on a specific date. For some of the products like product 31515569, price information is used as regressor in the model. "Visit Count" column refers to the number of visits that the customer executed on that specific product bu this column is hard to use in the model because most of the row values are lost due to real life data losses. "Favored Count" refers to the number of customers who liked that product. "Basket Count" refers to the customers that put that product to their online shopping basket. "Category Sold" refers to the total sales of products that the product belongs to. "Category Brand SOld" and Category Visits" is similarly refer to the data related to Category.
+
+- Beside from the variables, some products should be emphasized. Product 48740784 is a winter coat that is sold on winter months and summer month due to various campaigns. Product 73318567 and product 32737302 are bikinis that is sold mostly on summer months. Thus for these three products, there were no sales data at some points since Trendyol prefers not to put these product on the marketplace.
+
+- After understanding of characteristic each product, there are some other affect coming from Trendyol. Such as every year, there is huge discount days such as Black Friday. Also, the e-commerce website has the mechanism that if you advertise your product in Trendyol, then users are see these products in their home pages more. Besides advertisement, websites are using search algorithms. Basically with machine learning algorithms, the Trendyol understand your behavior and  according to your characteristic recommend products to you. 
+
+## Approach
+
+In this section, the type of models that are built for each product will be explained. As mentioned before, there are 9 products with different characteristics, hence there is a need to handle each product separately and construct the most suitable model. Out of these 9 products, LM models were constructed for products 48740784, 73318567, and 32737302 whereas ARIMA models were constructed for products 31515569, 6676673, 7061886, and 32939029, and ARIMAX models were constructed for products 85004 and 4066298. These three types of approaches will be presented using one example for each approach.
+
+### LM Model
+
+
+We are using LM models in the products which do not have enough data for ARIMA or ARIMAX. Also some of the products does not have continuous sale at Trendyol such as Altinyildiz Coat (ID: 48740784). Because it is a winter coat, most of the meaningful data is in winter time. At this point, because we lose the continuity of time series, we have to build LM models for this kind of products.
+
+```{r, warning=F}
+
+# reading data from local
+pr1 = read.csv("alldata_item1.csv")
+pr1 <- as.data.table(pr1)
+
+# manipulation
+
+pr1 <- pr1[,-c("X","w_day")] #subtract useless columns
+pr1 <- mutate(pr1, event_date = mdy(event_date)) # converting event date into datetime object
+pr1[, Month:=as.numeric(lubridate::month(event_date,label=F))] #adding month information as a numeric variable 
+pr1[, Day:=as.numeric(lubridate::wday(event_date,label=F))] #adding day information as a numeric variable 
+
+pr1 <- drop_na(pr1)
+```
+
+After dropping NA values, we have:
+
+```{r, warning=F}
+ggplot(data =  pr1 , aes(x=event_date, y= sold_count)) +
+  geom_line(color= "darkred") +
+  labs(title = "Product 48740784 Without NA Values ",
+       x = "Date",
+       y= "Sales") 
+
+```
+
+The approach that we are going to follow for LM model is putting all the attributes (excluding seasonal terms) into the model and choose the significant ones from summary of the model.
+
+```{r, warning=F}
+
+lm1 <- lm(sold_count~. - Month - weeknumber - Day - event_date - product_content_id, data = pr1) # with all atributes excluding seasons
+summary(lm1)
+```
+
+`visit_count` and `favored_count` should be correlated with basket count. Therefore, as a first step we subtract these attribute. Furthermore, `category_visits` should have correlation with `ty_visits` , we can subtract this one also.
+
+```{r, warning=F}
+
+lm2 <- lm(sold_count~. - Month - weeknumber - Day - event_date - product_content_id -visit_count - favored_count - category_visits , data = pr1) # Second LM Model
+summary(lm2)
+```
+
+Because this pproduct's `price` fluctuate in time, price do not affect the model. Also, `category_sold` and `category_brand_sold` does not have significant effect on the model.
+
+```{r, warning=F}
+
+lm3 <- lm(sold_count~. - Month - weeknumber - Day - event_date - product_content_id -visit_count - favored_count - category_visits - category_sold - category_brand_sold - price , data = pr1) # Third LM Model
+summary(lm3)
+```
+
+Now, the model has significant regressors. We can add seasonal term into the model.
+
+```{r, warning=F}
+
+lm4 <- lm(sold_count~. - event_date - product_content_id -visit_count - favored_count - category_visits - category_sold - category_brand_sold - price , data = pr1) # Fourth LM Model
+summary(lm4)
+```
+
+After adding seasons, `category_basket` lost its significance. And because `weeknumber` and `Month` can be correlated with each other, `weeknumber` dropped.
+
+```{r, warning=F}
+
+lm5 <- lm(sold_count~. - event_date - product_content_id -visit_count - favored_count - category_visits - category_sold - category_brand_sold - price - category_basket - weeknumber , data = pr1) # Fifth LM Model
+summary(lm5)
+```
+
+`Month` gain, a little significance. `ty_visits` and `Day` should have correlation with each other. Because `ty_visits` has huge numbers, `Day` can be affect the model better. Therefore, we can try to subtract `ty_visits`
+
+```{r, warning=F}
+
+lm6 <- lm(sold_count~. - event_date - product_content_id -visit_count - favored_count - category_visits - category_sold - category_brand_sold - price - category_basket - weeknumber - ty_visits , data = pr1) # Sixth LM Model
+summary(lm6)
+```
+
+Both seasonal term do not have significance in the model. We can subtract intercept to get better R-squared value:
+
+```{r, warning=F}
+
+lm7 <- lm(sold_count~. - event_date - product_content_id -visit_count - favored_count - category_visits - category_sold - category_brand_sold - price - category_basket - weeknumber - ty_visits - 1 , data = pr1) # Seventh LM Model
+summary(lm7)
+```
+
+Seasonal terms does not look like have significance in the model, so we can subtract them to see whether R-squared value increased or not.
+
+```{r, warning=F}
+
+lm8 <- lm(sold_count~. - event_date - product_content_id -visit_count - favored_count - category_visits - category_sold - category_brand_sold - price - category_basket - weeknumber - ty_visits - 1 - Month, data = pr1) # Seventh LM Model
+summary(lm8)
+
+lm9 <- lm(sold_count~. - event_date - product_content_id -visit_count - favored_count - category_visits - category_sold - category_brand_sold - price - category_basket - weeknumber - ty_visits - 1 - Day, data = pr1) # Seventh LM Model
+summary(lm9)
+```
+
+While we subtract them from the model, there is no increase in the model. Because we take them as numeric, seems like they do no effect on the model. Therefore, we are continue with `Day` and `Month` variable.
+
+Final LM model is:
+
+```{r, warning=F}
+
+lmfinal <- lm(sold_count~. - event_date - product_content_id -visit_count - favored_count - category_visits - category_sold - category_brand_sold - price - category_basket - weeknumber - ty_visits - 1 , data = pr1) # Final LM Model
+summary(lmfinal)
+```
+
+To do forecast with these regressors, seasonal terms (`Day` and `Month`) naturally given. For `basket_count` and `category_favored`, we follow several approaches. At the beginning of the project; if there is peaks in the last days, we took 7 or 5th order moving average of the variable. If the variable seems like keep it on the same level, then we only take 3rd order moving average. Later, we try to built LM models with only seasonal terms (Day, weeknumber and Month) for the regressors in the model. If that models have R-squared value higher than 0.70 (our threshold value), we predict with that model for the next day.
+
+### ARIMA Model
+
+For this approach, the model construction steps for product 6676673 will be shown as an example. 
+First, the sales data is converted to time series data on weekly and monthly levels. Then, the random components for each level of decomposition is investigated by plotting ACF and PACF graphs and applying KPSS test.
+
+First, decomposition for monthly level is applied.
+
+```{r, warning=FALSE}
+pr5 <- read_excel("item5.xlsx")
+monthlytspr5 <- ts(pr5$sold_count, freq = 30, start = c(1,1))
+decmonthlypr5 <- decompose(monthlytspr5, type = "additive")
+plot(decmonthlypr5)
+tsdisplay(decmonthlypr5$random)
+kpss.test(decmonthlypr5$random)
+```
+
+Then, decomposition for weekly level is applied.
+
+```{r, warning=FALSE}
+weeklytspr5 <- ts(pr5$sold_count, freq = 7, start = c(1,1))
+decweeklypr5 <- decompose(weeklytspr5, type = "additive")
+plot(decweeklypr5)
+tsdisplay(decweeklypr5$random)
+kpss.test(decweeklypr5$random)
+```
+
+In the ACF and PACF plots of the random component of weekly time series data, an extremely high autocorrelation is detected at the third lag. Therefore, it is decided to construct a new time series data with a frequency of 3.
+
+Decomposition for three-daily time series data is applied.
+
+```{r, warning=FALSE}
+threetspr5 <- ts(pr5$sold_count, freq = 3, start = c(1,1))
+decthreepr5 <- decompose(threetspr5, type = "additive")
+plot(decthreepr5)
+tsdisplay(decthreepr5$random)
+kpss.test(decthreepr5$random)
+```
+
+When the random component of the last time series data is investigated and compared to the others, it is seen that the autocorrelation pretty much decreased and the random component looks like a white noise except for some outliers. Hence, the random component of three-daily time series data is chosen to be used in constructing an ARIMA model.
+
+To find a suitable ARIMA model, using the ACF and PACF plots of the random term, ARIMA(0,0,2) is chosen as an initial model and using the neighborhood search, this model is improved.
+
+```{r, warning=FALSE}
+randompr5 <- decthreepr5$random
+
+pr5arima <- arima(randompr5, order = c(0,0,2)) 
+pr5arima
+
+pr5ar1 <- arima(randompr5, order=c(0,0,1))
+pr5ar1
+
+pr5ar2 <- arima(randompr5, order=c(0,0,3))
+pr5ar2
+
+pr5ar3 <- arima(randompr5, order=c(1,0,2))
+pr5ar3 #lowest AIC
+
+pr5model <- pr5ar3
+```
+
+After the neighborhood search, ARIMA(1,0,2) model is selected.
+
+To test the proficiency of the constructed ARIMA model, the graph for fitted model vs actual sales data is plotted.
+
+```{r, warning=FALSE}
+model_fitted_pr5 <- randompr5 - residuals(pr5model)
+model_fitted_transformed_pr5 <- model_fitted_pr5+decthreepr5$trend+decthreepr5$seasonal
+plot(threetspr5, xlab = "3-Days", ylab = "Sold Count",main="Actual (Black) vs. Predicted (Blue)")+points(model_fitted_transformed_pr5, type = "l", col = 5, lty = 1)
+```
+
+### ARIMAX Model
+
+For the ARIMAX model approach, to simply examplify the steps of this method, the previous ARIMA model for product 6676673 can be used. To derive an ARIMAX model from the already constructed ARIMA(1,0,2) model, first the possible external regressors should be evaluated whether they are suitable to use.
+
+Since some external regressors have too many empty data points, there are only four regressors that are available to use: basket count, category sold, category visits, and category favored. To see their relationship with sold count data, a new data table containing these four regressors and sold count will be constructed and their pairplots will be investigated.
+
+```{r, warning=FALSE}
+pr5data <- data.frame(date = pr5$event_date, sold_count = pr5$sold_count, basket_count = pr5$basket_count, category_visits = pr5$category_visits, category_favored = pr5$category_favored)
+pairs(pr5data)
+```
+
+According to the pairplot, "basket count" and "category favored" columns are chosen to be added to the model as external regressors.
+
+Adding the chosen external regressors to the model:
+
+```{r, warning=FALSE}
+regressorspr5 <- data.frame(pr5$basket_count, pr5$category_favored)
+arimaxpr5 <- arima(randompr5, order = c(1,0,2), xreg = regressorspr5)
+arimaxpr5
+```
+
+Looking at the significance values of the regressors, it can be said that the second regressor "category favored" has lost its significance. Therefore, the model can be rebuilt using the first regressor only.
+
+```{r, warning=FALSE}
+arimaxpr5 <- arima(randompr5, order = c(1,0,2), xreg = pr5data$basket_count)
+arimaxpr5
+```
+
+To test the proficiency of the constructed ARIMAX model, the graph for fitted model vs actual sales data is plotted.
+
+```{r, warning=FALSE}
+arimaxmodel_fitted_pr5 <- randompr5 - residuals(arimaxpr5)
+arimaxmodel_fitted_transformed_pr5 <- arimaxmodel_fitted_pr5+decthreepr5$trend+decthreepr5$seasonal
+plot(threetspr5, xlab = "3-Days", ylab = "Sold Count",main="Actual (Black) vs. Predicted (Blue)")+points(arimaxmodel_fitted_transformed_pr5, type = "l", col = 5, lty = 1)
+```
+
+## Results
+
+
+In this part, the prediction results for the period between 12th of June, 2021 and 25th of June, 2021 for each product will be summarized. Every prediction was made by using the data until 2 days before the prediction day. That is, for example, in 14th of June, the predictions were made for 15th of June using the data until 13th of June. Here is below, actual and predicted values of  first 2 products for summary
+
+```{r, warning=FALSE}
+predictions <- read.csv("pred.csv")
+predictions <- mutate(predictions, Date = mdy(Date))
+predictions[,c(1:5)]
+```
+
+Since the predictions were made daily, and there was time to work on the models, the predictions tended to be more accurate by the time. However, since there is daily effects, such as an unexpected discount on a product, the predictions were sometimes not good enough to ensure the consistency in the models.
+
+Product 8 (ID: 4066298) got advertised or pop up in home page of Trendyol more than usual because of search algorithms while we are in prediction phase for this project. Therefore, it made huge peaks for 2 days. For this product we used ARIMAX models in that time. As we mentioned in homework 4&5, we have to be careful about the peaks while we are using ARIMA and ARIMAX models. Here is below plot for that product:
+
+```{r, warning=FALSE}
+ggplot() + 
+  geom_line(data = predictions, aes(x = predictions$Date, y = predictions$PR8.Predicted,color = "predicted")) +
+  geom_line(data = predictions, aes(x = predictions$Date, y = predictions$PR8.Actual,color = "actual")) +
+  xlab('time') +
+  ylab('Product 4066298') + 
+  ggtitle("Actual vs. Predicted for Product 4066298")
+```
+
+As we can see from the plot, we have delays between predicted and actual values for this product. Here is the statistic of it: 
+
+```{r, warning=FALSE}
+statistics <- function(actual, forecasted){
+  n=length(actual)
+  error = actual-forecasted
+  mean=mean(actual)
+  sd=sd(actual)
+  bias = sum(error)/sum(actual)
+  mad = sum(abs(error))/n
+  wmape = mad/mean
+  l = data.frame(n,mean,sd,bias,mad,wmape)
+  return(l)
+}
+statistics(predictions$PR8.Actual, predictions$PR8.Predicted)
+
+```
+
+For this product, our ARIMAX model could not catch the real life peaks. For better models which can catch the peaks and dips, I mentioned in Future Work section what we can do further.
+
+You can find below the statictics of including all the products:
+
+```{r, warning=FALSE}
+allpred <- read.csv("overallpred.csv")
+statistics(allpred$Actual, allpred$Prediction)
+```
+
+## Conclusion and Future Work
+
+- We follow for each product different approach according to its characteristic and the data volume. With enough data, we try to build ARIMA or ARIMAX models with weekly decomposition. In order to decide which model is the best, we use AIC error measurement.
+
+- For small data sets, we have to construct LM models with regressors with using R-squared values of models. To develop further, for the external regressors in ARIMAX models and significant attributes in LM models, we try to predict these regressors also. With building different LM models for each regressor, we also want to have more accurate predictions.
+
+- To get better results in prediction of sales, we can add other regressors. Such as, discount days in Trendyol. Every year in specific days, there is huge discounts for a limited time. If we add that information into models, we can detect outliers better.
+
+- Also, we can check whether seller of the product buy advertisement for that product. Because if a seller advertise for its product, then customers see that product in their screens and the chance of buying that product increase. 
+
+- Furtmore, we predict seasonal clothes such as winter coat and bikinis. If we add the weather conditions of Istanbul, then morelikely we can built our model better. Because even we are in summer days right now, bikini sells should affect from weather conditions. In warmer days, people think more to go to the beach and holidays. 
+
+
+### CODES
+
+You can find below for each product the code scripts:
+
+[Product ID: 48740784, 73318567, 32737302](https://github.com/BU-IE-360/spring21-SinaOzturk/blob/master/files/ProjectCodes/Pr1-2-3.ipynb) 
+
+[Product ID: 31515569](https://github.com/BU-IE-360/spring21-SinaOzturk/blob/master/files/ProjectCodes/item4.R)
+
+[Product ID: 6676673](https://github.com/BU-IE-360/spring21-SinaOzturk/blob/master/files/ProjectCodes/item5.R) 
+
+[Product ID: 7061886](https://github.com/BU-IE-360/spring21-SinaOzturk/blob/master/files/ProjectCodes/item6.R) 
+
+[Product ID: 85004](https://github.com/BU-IE-360/spring21-SinaOzturk/blob/master/files/ProjectCodes/item7.R) 
+
+[Product ID: 4066298](https://github.com/BU-IE-360/spring21-SinaOzturk/blob/master/files/ProjectCodes/item8.R) 
+
+[Product ID: 32939029](https://github.com/BU-IE-360/spring21-SinaOzturk/blob/master/files/ProjectCodes/item9.R) 
+
+

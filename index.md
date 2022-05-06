@@ -65,3 +65,26 @@ You can find [Report](IE425_Data_Mining/Project/IE425_Project_Markdown_Report.ht
 
 ## IE48B Special Topic in Time Series Analysis
 
+### HW1 Data Representation Techniques and Clustering with Autoregressive Models
+
+In this task, I have a dataset which represents gesture recognition of, let's say a phone, the data is a time series and there is 3 variable x,y and z coordinates and these are the locations. My first task is visualize the data. I have try to take the cumulative sum of the data with respect to time to get speed in a way and visualize it. It worked somehow that task description says. Second task is represent the data in a different way and with using autoregressive modeling try to detect which class does it look like.
+
+You can find [Task Description](https://github.com/SinaOzturk/Projects/blob/main/IE48B_Special_Topic_in_Time_Series_Analysis/HW1/IE48B%20HW1.pdf), and [Jupyter Notebook](IE48B_Special_Topic_in_Time_Series_Analysis/HW1/IE48B_HW1_Jupyter_Notebook_Report.html) by click into.
+
+### HW3 Comparison of different distance measures with using different time series representations for different data sets
+
+In this task, we try to represent our 5 different data sets with `Piecewise Aggregate Approximation` and `Symbolic Aggregate Approximation (SAX)`. Also I have used 4 different distance measure. Those are `Euclidian Distance`, `Dynamic Time Warping (DTW)`, `LCSS` and `ERP`.
+After represent my data with different representation techniques using different distance measurement, I have done `Cross Validation` to classify my data. And compare the representation and distance measurements with respect to which representation worked better.
+
+You can find [Task Description](https://github.com/SinaOzturk/Projects/blob/main/IE48B_Special_Topic_in_Time_Series_Analysis/HW3/IE48B%20HW3.pdf), [Report](IE48B_Special_Topic_in_Time_Series_Analysis/HW3/IE48B_HW3_Markdown_Report.html) and [Code](https://github.com/SinaOzturk/Projects/blob/main/IE48B_Special_Topic_in_Time_Series_Analysis/HW3/IE48B%20HW3%20R%20Script.R) by click into.
+
+### Project Predcition of Sign of the difference between the total volume of the Down and Up Instructions in Turkish Electricity Market
+
+In Turkish electricity market, the prediction of the sign of difference between the volume of up and down instruciton play an important role because electirciy supplier has to take some actions with respect to this sign. 
+We have had historical data of the market with some additional variables that could be useful. We start with linear regression model to fit in our training set and use `Regression Tree Based Approach (EBLR)` order to improve the model. Also we represent to do classification `Piecewise Aggregate Approximation` and `Symbolic Aggregate Appriximation (SAX)` and different distance measurements. 
+With those representations, we predict the system sign with our improved model.
+
+You can find [Task description](https://github.com/SinaOzturk/Projects/blob/main/IE48B_Special_Topic_in_Time_Series_Analysis/Project/IE48B%20Project.pdf), [Report](IE48B_Special_Topic_in_Time_Series_Analysis/Project/IE48B_Project_Markdown_Report.html) and [Code](https://github.com/SinaOzturk/Projects/blob/main/IE48B_Special_Topic_in_Time_Series_Analysis/Project/Project_Report.ipynb)  by click into.
+
+
+

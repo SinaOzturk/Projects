@@ -47,6 +47,10 @@ You can find [Task Description](https://github.com/SinaOzturk/Projects/blob/main
 In this work, we start how the data science steps are taken such as spliting train and test sets for built-in datasets R included itself. Afterwards, we continue with creating `rpart` tree for specific parameters and see the error rates. Afterwards, we have done cross validation to find the best tree and make the predictions. 
 Also, I have created another tree with using `tree` package and followed same steps and compare the results and saw which package give better results.
 
+<<<<<<< HEAD
 You can find [Task Description](), [Report](IE425_Data_Mining/HW1/IE425_HW1_Markdown_Report.html) and [Code]() by click into.
+=======
+You can find [Task Description](https://github.com/SinaOzturk/Projects/blob/main/IE425_Data_Mining/HW%201/IE425%20HW1.pdf), [Report](IE425_Data_Mining/HW 1/IE425 HW1 Markdown Report.html) and [Code](https://github.com/SinaOzturk/Projects/blob/main/IE425_Data_Mining/HW%201/IE%20425%20HW1%20R%20Script.R) by click into.
+>>>>>>> aa1af4ee21a1a1780a82e4f446c391f094a322e7
 
 ### HW2 

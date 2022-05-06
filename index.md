@@ -1,6 +1,8 @@
 This page created to be in one hand of my homeworks, tasks and projects about Time Series Analysis, Data Mining etc.
 
-Below you can see my works classief as their courses.
+Please also note that, This works sorted by chronologically so the works done in the beginning are more inexperienced .
+
+Below you can see my works classied with respect to courses.
 
 ## IE360 Time Series Analysis
 

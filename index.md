@@ -86,5 +86,33 @@ With those representations, we predict the system sign with our improved model.
 
 You can find [Task description](https://github.com/SinaOzturk/Projects/blob/main/IE48B_Special_Topic_in_Time_Series_Analysis/Project/IE48B%20Project.pdf), [Report](IE48B_Special_Topic_in_Time_Series_Analysis/Project/IE48B_Project_Markdown_Report.html) and [Code](https://github.com/SinaOzturk/Projects/blob/main/IE48B_Special_Topic_in_Time_Series_Analysis/Project/Project_Report.ipynb)  by click into.
 
+## IE440 Non Linear Models in Operations Research
 
+In this course, we learnt how to find global minima or maxima in nonlinear models with lenty of methods. The reason I put this course in this page is because we learnt at teh end of the course how to build a neural network. 
+Therefore, I just want to mention about all the works I have done in this course but the main work is project.
 
+In the first task, I have applied `bisection`, `golden-section`, `newton's` and `secant` methods to find global optima. You can find the [Task Description](https://github.com/SinaOzturk/Projects/blob/main/IE440_Nonlinear_Models_in_Operations_Research/HW1/IE440%20HW1.pdf) and [Report](IE440_Nonlinear_Models_in_Operations_Research/HW1/IE440_HW1_Jupyter_Notebook_Report.html) by click into.
+
+In the second task, I solved `multi-facility weber problem` with using `Weiszfeld's Algorithm` and `Alternative Location - Allocation (ALA) Heuristic` method and compare the results of the algortihms. You can find [Task Description](https://github.com/SinaOzturk/Projects/blob/main/IE440_Nonlinear_Models_in_Operations_Research/HW2/IE440%20HW2.pdf) and [Report](IE440_Nonlinear_Models_in_Operations_Research/HW2/IE440_HW2_Jupyter_Notebook_Report.html) by click into. 
+
+In the third task, I tried to find the global optima for a specific nonlinear function  with using `Cyclic Coordinate Search`, `Hook & Jeeves Method` and `Simplex Search` algorithms. You can find [Task Description](https://github.com/SinaOzturk/Projects/blob/main/IE440_Nonlinear_Models_in_Operations_Research/HW3/IE440%20HW3.pdf) and [Report](IE440_Nonlinear_Models_in_Operations_Research/HW3/IE440_HW3_Jupyter_Notebook_Report.html) by click into. 
+
+In the fourth task, I tried to find the global optima for a specific nonlinear function with using `Steepest Descent Method`, `Newton’s Method (with exact line search)`, `DFP (Davidon - Fletcher - Powell) Method` and `BFGS (Broyden - Fletcher - Goldfarb - Shanno) Method`. You can find [Task Description](https://github.com/SinaOzturk/Projects/blob/main/IE440_Nonlinear_Models_in_Operations_Research/HW4/IE440%20HW4.pdf) and [Report](IE440_Nonlinear_Models_in_Operations_Research/HW4/IE440_HW4_Jupyter_Notebook_Report.html) by click into.
+
+### Project Comparison of A Neural Network with other Methods
+
+In the first part of the project, I tried to find local minima with `Least Square Method`, and `DFP Method` that I created already in previous tasks. 
+In the second part of the project, I built a neural network that has one output unit, two-four input terminals and one hidden layer with given activation factor. 
+And we compared results of the methods and neural networks with each other.
+
+You can find [Task Description](https://github.com/SinaOzturk/Projects/blob/main/IE440_Nonlinear_Models_in_Operations_Research/Project/IE440%20Project.pdf) and [Report](IE440_Nonlinear_Models_in_Operations_Research/Project/IE440_Project_Jupyter_Notebook_Report.html) by click into.
+
+## IE492 Graduation Project
+
+In this project we try to find a state-of-art method that predict short-term wind turbines electricity production.
+
+We have the spatio-temporal data from Numerical Weather Prediction (NWP) model. The data include longitude, latitude, altitude and time at the same time and have U and V vectors of wind.
+Our first task is to built base line models to compare our final model with them. 
+We start with Principal Component Analysis, Gaussian Process Regression and Lasso Regression as base line models.
+In the second part of the project, we will built physics-oriented neural networks model to predict the production. 
+Because the work is not finished, I am not able to show the works we have done. 

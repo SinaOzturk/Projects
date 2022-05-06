@@ -58,9 +58,10 @@ You can find [Task Description](https://github.com/SinaOzturk/Projects/blob/main
 ### Project (Kaggle Competition with my Classmates in one of the famous Data Set in Kaggle)
 
 In this work, we have dataset of Kobe Bryant's statistics in his games. There were plenty of statistics about his shots' performance such as distance, location and time of the shots that he take.  
-First we start with simple logistic regression because we try to predict that the shot will be point or not. We start with very simple models and add variables one by one. Afterwards, we model `Gradient Boosting Machines`, with doing some parameter tuning. Compare the logistic regression and GBM models and make our predictions with using our Final GBM Model.
+First we start with simple `logistic regression` because we try to predict that the shot will be point or not. We start with very simple models and add variables one by one. Afterwards, we model `Gradient Boosting Machines`, with doing some parameter tuning. Compare the logistic regression and GBM models and make our predictions with using our Final GBM Model.
 In the Kaggle results, we were in the second position before teh evaluation phase but unfortunately we ended up at sixth place after all the data included in final phase of the competition.
 
 You can find [Report](IE425_Data_Mining/Project/IE425_Project_Markdown_Report.html) and [Code](https://github.com/SinaOzturk/Projects/blob/main/IE425_Data_Mining/Project/IE425%20Project%20R%20Script.R) by click into.
 
+## IE48B Special Topic in Time Series Analysis
 

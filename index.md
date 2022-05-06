@@ -1,13 +1,15 @@
 This page created to be in one hand of my homeworks, tasks and projects about Time Series Analysis, Data Mining etc.
 
-Below you can see my works classief as their courses.
+Please also note that, This works sorted by chronologically so the works done in the beginning are more inexperienced .
+
+Below you can see my works classied with respect to courses.
 
 ## IE360 Time Series Analysis
 
 ### HW1 Basic Data Visualization
 
-In this work, we  import some datasets from Turkish Central Bank's database and taken from Google Trends. 
-And then, visualize it to with simple plot functions to see how it behave and try to do little analysis about the data.
+In this work, we  import some datasets from Turkish Central Bank's database and from Google Trends. 
+And then, visualize it with simple plot functions to see how it behave and try to do little analysis about the data.
 
 You can find [Task Description](https://github.com/SinaOzturk/Projects/blob/main/IE360_Statistical_Forecasting_and_Time_Series/HW1/IE%20360%20HW1.pdf), [Report](IE360_Statistical_Forecasting_and_Time_Series/HW1/IE360_HW1_Markdown_Report.html) and [Code](https://github.com/SinaOzturk/Projects/blob/main/IE360_Statistical_Forecasting_and_Time_Series/HW1/IE%20360%20HW1%20R%20Script.R) by click into.
 

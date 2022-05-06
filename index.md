@@ -6,7 +6,7 @@ Below you can see my works classief as their courses.
 
 ### HW1
 
-In this work, we  import some datasets from Turkish Central Bank's database and taken from Google Trends. 
-And then, visualize it to with simple plot functions to see how it behave and try to do little analysis about the data.
+In this work, we  import some datasets from Turkish Central Bank's database and from Google Trends. 
+And then, visualize it with simple plot functions to see how it behave and try to do little analysis about the data.
 
 You can find [Task Description](https://github.com/SinaOzturk/Projects/blob/main/IE360_Statistical_Forecasting_and_Time_Series/HW1/IE%20360%20HW1.pdf), [Report](IE360_Statistical_Forecasting_and_Time_Series/HW1/IE360_HW1_Markdown_Report.html) and [Code](https://github.com/SinaOzturk/Projects/blob/main/IE360_Statistical_Forecasting_and_Time_Series/HW1/IE%20360%20HW1%20R%20Script.R) by click into.

@@ -42,11 +42,25 @@ You can find [Task Description](https://github.com/SinaOzturk/Projects/blob/main
 
 ## IE425 Data Mining
 
-### HW1 Introduction to Data Mining
+### HW1 Introduction to Data Mining (Rpart and Tree Package)
 
 In this work, we start how the data science steps are taken such as spliting train and test sets for built-in datasets R included itself. Afterwards, we continue with creating `rpart` tree for specific parameters and see the error rates. Afterwards, we have done cross validation to find the best tree and make the predictions. 
 Also, I have created another tree with using `tree` package and followed same steps and compare the results and saw which package give better results.
 
 You can find [Task Description](https://github.com/SinaOzturk/Projects/blob/main/IE425_Data_Mining/HW1/IE425%20HW1.pdf), [Report](IE425_Data_Mining/HW1/IE425_HW1_Markdown_Report.html) and [Code](https://github.com/SinaOzturk/Projects/blob/main/IE425_Data_Mining/HW1/IE%20425%20HW1%20R%20Script.R) by click into.
 
-### HW2 
+### HW2 Dealing with Parameter Tuning (k-fold Cross-Validation and Gradient Boosting Machines)
+
+In this work, I practised parameter tuning. After splitting dataset to train and test sets, I used `k-fold cross-validation` approach. Because there was plenty of parameters, I deal with parameter tuning a lot. In the second part of the task, I used `Gradient Boosting Machine` for the same dataset and play with paramaters to find the best model.
+
+You can find [Task Description](https://github.com/SinaOzturk/Projects/blob/main/IE425_Data_Mining/HW2/IE452%20HW2.pdf), [Report](IE425_Data_Mining/HW2/IE452_HW2_Markdown_Report.html) and [Code](https://github.com/SinaOzturk/Projects/blob/main/IE425_Data_Mining/HW2/IE452%20HW2%20R%20Script.R) by click into.
+
+### Project (Kaggle Competition with my Classmates in one of the famous Data Set in Kaggle)
+
+In this work, we have dataset of Kobe Bryant's statistics in his games. There were plenty of statistics about his shots' performance such as distance, location and time of the shots that he take.  
+First we start with simple logistic regression because we try to predict that the shot will be point or not. We start with very simple models and add variables one by one. Afterwards, we model `Gradient Boosting Machines`, with doing some parameter tuning. Compare the logistic regression and GBM models and make our predictions with using our Final GBM Model.
+In the Kaggle results, we were in the second position before teh evaluation phase but unfortunately we ended up at sixth place after all the data included in final phase of the competition.
+
+You can find [Report](IE425_Data_Mining/Project/IE425_Project_Markdown_Report.html) and [Code](https://github.com/SinaOzturk/Projects/blob/main/IE425_Data_Mining/Project/IE425%20Project%20R%20Script.R) by click into.
+
+

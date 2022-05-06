@@ -26,4 +26,27 @@ In this work, since electricity consumption is very seasonal data, first we star
 
 You can find [Task Description](https://github.com/SinaOzturk/Projects/blob/main/IE360_Statistical_Forecasting_and_Time_Series/HW3/IE360%20HW3.pdf), [Report](IE360_Statistical_Forecasting_and_Time_Series/HW3/IE360_HW3_Markdown_Report.html), and [Code](https://github.com/SinaOzturk/Projects/blob/main/IE360_Statistical_Forecasting_and_Time_Series/HW3/IE360%20HW3%20R%20Script.R) by click into.
 
-### Project 
+### Project Forecasting approach to sales of several products in one of the main e-commerce website in Turkey 
+
+In this work, we had 9 different products' sales data for 1  year and some additional data that can be useful for modelling such as category visits. We investigate different forecasting techniques and following models were implemented: Multiple Linear Regression, ARIMAX and ARIMA. Because each product has different characterisctics with respect to consumption behaviour and seasonality, different models are used for each product.
+IF we talk briefly about the model selection, if the product has a lot of missing data, we used linear regression because ARIMA or ARIMAX models could not usable if data has a big period of missing data. ARIMA or ARIMAX models selected for the products that has more data then the others. You can find the results and future work can be done in the report. It was very joyful and educative project for us because handling with real time data and see the results of your work motivate me and my team members. 
+
+You can find [Task Description](https://github.com/SinaOzturk/Projects/blob/main/IE360_Statistical_Forecasting_and_Time_Series/Project/IE%20360%20Project.pdf) and [Report](IE360_Statistical_Forecasting_and_Time_Series/Project/FinalProjectReport.html). You also can find the links for codes of prediction modelling is at the end of the report.
+
+### HW4 Application of ARIMA and ARIMAX techniques for the e-commerce sales of specific products
+
+This task is a detailed work for what we have done in the project. We simply apply ARIMA or ARIMAX models to each product and see the prediction results. Basically we have done decompose data, detect trend and seasonality. See some plots to understand the data such as using ACF and PACF pilots to see the correlation between lags etc. And then, determine ARIMA or ARIMAX models are suitable for that product.
+
+You can find [Task Description](https://github.com/SinaOzturk/Projects/blob/main/IE360_Statistical_Forecasting_and_Time_Series/HW4/IE360%20HW4.pdf), and [Report](IE360_Statistical_Forecasting_and_Time_Series/HW4/IE360_HW4_Markdown_Report.html) by click into.
+
+
+## IE425 Data Mining
+
+### HW1 Introduction to Data Mining
+
+In this work, we start how the data science steps are taken such as spliting train and test sets for built-in datasets R included itself. Afterwards, we continue with creating `rpart` tree for specific parameters and see the error rates. Afterwards, we have done cross validation to find the best tree and make the predictions. 
+Also, I have created another tree with using `tree` package and followed samme steps and compare the results and saw which package give better results.
+
+You can find [Task Description](https://github.com/SinaOzturk/Projects/blob/main/IE425_Data_Mining/HW%201/IE425%20HW1.pdf), [Report](IE425_Data_Mining/HW%1/IE425%HW1%Markdown%Report.html) and [Code](https://github.com/SinaOzturk/Projects/blob/main/IE425_Data_Mining/HW%201/IE%20425%20HW1%20R%20Script.R) by click into.
+
+### HW2 
